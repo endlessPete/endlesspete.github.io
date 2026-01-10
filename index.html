@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Endlesspete</title>
+
+  <meta name="color-scheme" content="light dark" />
+
+  <style>
+    :root {
+      --bg-light: #f5f5f7;
+      --bg-dark: #0e0e11;
+
+      --card-light: #ffffff;
+      --card-dark: #1a1a1f;
+
+      --text-light: #111111;
+      --text-dark: #f2f2f2;
+
+      --subtle-light: #6e6e73;
+      --subtle-dark: #9a9aa1;
+
+      --accent: #5b7cfa;
+      --radius: 16px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: var(--bg-dark);
+        --card: var(--card-dark);
+        --text: var(--text-dark);
+        --subtle: var(--subtle-dark);
+      }
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: var(--bg-light);
+        --card: var(--card-light);
+        --text: var(--text-light);
+        --subtle: var(--subtle-light);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+                   "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 720px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 24px;
+      text-align: center;
+      letter-spacing: 0.4px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    @media (min-width: 640px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    a.project {
+      display: block;
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+
+    a.project:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+
+    .title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .meta {
+      font-size: 0.85rem;
+      color: var(--subtle);
+    }
+
+    footer {
+      margin-top: 28px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--subtle);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Endlesspete Projects</h1>
+
+    <div class="grid">
+      <a class="project" href="https://endlesspete.github.io/x">
+        <div class="title">Ultra-Fall</div>
+        <div class="meta">Property of Endlesspete</div>
+      </a>
+
+      <a class="project" href="https://endlesspete.github.io/x">
+        <div class="title">Undecimus</div>
+        <div class="meta">Collaboration · Terralinklaps (Skylark Inc)</div>
+      </a>
+
+      <a class="project" href="https://endlesspete.github.io/x">
+        <div class="title">16e</div>
+        <div class="meta">Collaboration · Terralinklaps (Skylark Inc)</div>
+      </a>
+
+      <a class="project" href="https://endlesspete.github.io/x">
+        <div class="title">MGN</div>
+        <div class="meta">Property of GAC Inc</div>
+      </a>
+    </div>
+
+    <footer>
+      © Endlesspete
+    </footer>
+  </div>
+</body>
+</html>

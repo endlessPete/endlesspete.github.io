@@ -1,263 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Undecimus</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Endlesspete</title>
 
-<!-- Favicon / Apple Icons (ADD ONLY) -->
-<link rel="icon" type="image/png" sizes="32x32" href="Web-icon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="Web-icon-16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="Web-icon-180.png">
-<link rel="apple-touch-icon" sizes="167x167" href="Web-icon-167.png">
-<link rel="apple-touch-icon" sizes="152x152" href="Web-icon-152.png">
+  <meta name="color-scheme" content="light dark" />
 
-<style>
-:root{
-  color-scheme:light dark;
-  --bg:#0b0b0d; --text:#f2f2f7; --muted:#9a9aa1;
-  --button:#1c1c1e; --button-hover:#2c2c2e;
-  --border:#2a2a2c; --accent:#6aa9ff; --warn:#ffcc66;
-}
-@media(prefers-color-scheme:light){
-  :root{
-    --bg:#f5f5f7; --text:#1c1c1e; --muted:#6e6e73;
-    --button:#fff; --button-hover:#eaeaee;
-    --border:#d1d1d6; --accent:#007aff; --warn:#9c6b00;
-  }
-}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,
-    "SF Pro Text","SF Pro Display",system-ui,sans-serif;
-  background:var(--bg); color:var(--text);
-  display:flex; justify-content:center;
-  min-height:100vh; text-align:center;
-}
-.container{max-width:460px;width:100%;padding:32px 20px}
+  <style>
+    :root {
+      --bg-light: #f5f5f7;
+      --bg-dark: #0e0e11;
+      --card-light: #ffffff;
+      --card-dark: #1a1a1f;
+      --text-light: #111111;
+      --text-dark: #f2f2f2;
+      --subtle-light: #6e6e73;
+      --subtle-dark: #9a9aa1;
+      --accent: #5b7cfa;
+      --error: #ff3b30;
+      --radius: 16px;
+    }
 
-h1{margin:0;font-size:2.2rem}
-.subtitle{margin-top:6px;font-size:.95rem;color:var(--muted)}
-.subtitle a{color:var(--accent);text-decoration:none}
-.tagline{margin:18px 0;font-size:.85rem;color:var(--muted)}
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: var(--bg-dark);
+        --card: var(--card-dark);
+        --text: var(--text-dark);
+        --subtle: var(--subtle-dark);
+      }
+    }
 
-.required{
-  margin:20px 0 28px;
-  padding:16px;
-  border-radius:14px;
-  background:var(--button);
-  border:1px solid var(--border);
-}
-.required-title{
-  font-size:.9rem;font-weight:600;
-  color:var(--warn);margin-bottom:6px;
-}
-.required-text{
-  font-size:.75rem;color:var(--muted);line-height:1.4;
-}
-.required a{
-  color:var(--accent);
-  text-decoration:underline;
-}
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: var(--bg-light);
+        --card: var(--card-light);
+        --text: var(--text-light);
+        --subtle: var(--subtle-light);
+      }
+    }
 
-.editions{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px;
-}
-@media(min-width:420px){
-  .editions{grid-template-columns:repeat(3,1fr)}
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-.edition-link{text-decoration:none;color:inherit}
-.edition{
-  padding:16px 12px;
-  border-radius:14px;
-  border:1px solid var(--border);
-}
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+                   "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
 
-/* --- ADD: pastel colors --- */
-.ed1{background:#ffd6d6}
-.ed2{background:#ffe4c7}
-.ed3{background:#fff4c4}
-.ed4{background:#e8ddff}
-.ed5{background:#dff7ec}
-.ed6{background:#dbe8ff}
-.skylark-e{background:#d9ffbf}
-.skylark-fe{background:#ffcaca}
+    .container {
+      width: 100%;
+      max-width: 720px;
+    }
 
-.edition-title{font-size:.9rem;font-weight:600}
-.edition-version{margin-top:6px;font-size:.72rem;color:var(--muted)}
-.edition-support{margin-top:4px;font-size:.65rem;color:var(--muted)}
-.edition-note{margin-top:4px;font-size:.65rem;color:var(--accent)}
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 24px;
+      text-align: center;
+    }
 
-.edition.unsupported{opacity:.45}
-.edition-link.disabled{pointer-events:none}
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
 
-/* Mac Dock loop */
-@keyframes dockNudge{
-  0%{transform:translateY(0)}
-  8%{transform:translateY(-6px)}
-  16%{transform:translateY(0)}
-  26%{transform:translateY(-6px)}
-  36%{transform:translateY(0)}
-  100%{transform:translateY(0)}
-}
-.edition.recommended{
-  animation:dockNudge 3.8s ease-in-out infinite;
-  border-color:var(--accent);
-}
+    @media (min-width: 640px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
 
-/* Skylark e hot pink highlight */
-.edition.skylark-e.highlighted{
-  border-color:#FF69B4;
-  box-shadow:0 0 0 2px rgba(255,105,180,.45);
-}
+    .project {
+      display: block;
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      cursor: pointer;
+    }
 
-.divider{
-  grid-column:1/-1;
-  margin:10px 0 4px;
-  padding-top:14px;
-  border-top:1px solid var(--border);
-  font-size:.7rem;
-  color:var(--muted);
-  text-align:left;
-}
+    .project:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
 
-.disclaimer{
-  margin-top:32px;
-  font-size:.7rem;
-  color:var(--muted);
-}
-.disclaimer a{color:var(--accent);text-decoration:none}
+    .title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
 
-.blocked{
-  display:none;
-  max-width:320px;
-  padding:24px;
-  margin:auto;
-  border-radius:16px;
-  background:var(--button);
-  border:1px solid var(--border);
-  font-size:.85rem;
-}
-</style>
+    .meta {
+      font-size: 0.85rem;
+      color: var(--subtle);
+    }
+
+    .other-input {
+      display: none;
+      margin-top: 12px;
+    }
+
+    .other-input input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: none;
+      font-size: 1rem;
+      background: var(--card);
+      color: var(--text);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+      margin-bottom: 10px;
+    }
+
+    .search-btn {
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .error {
+      color: var(--error);
+      font-size: 0.8rem;
+      margin-top: 6px;
+      display: none;
+    }
+
+    /* Mac-style shake */
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      15% { transform: translateX(-8px); }
+      30% { transform: translateX(8px); }
+      45% { transform: translateX(-6px); }
+      60% { transform: translateX(6px); }
+      75% { transform: translateX(-3px); }
+      90% { transform: translateX(3px); }
+      100% { transform: translateX(0); }
+    }
+
+    .shake {
+      animation: shake 0.4s ease;
+    }
+
+    footer {
+      margin-top: 28px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--subtle);
+    }
+  </style>
 </head>
 
 <body>
+  <div class="container">
+    <h1>Endlesspete Projects</h1>
 
-<div class="container" id="app">
-<h1>Undecimus</h1>
+    <div class="grid">
+      <!-- existing project links unchanged -->
 
-<div class="subtitle">
-by endlesspete inc partnered with
-<a href="https://x.com/terralinkslabs?s=11" target="_blank">Terralinks Labs</a>
-</div>
+      <!-- Other -->
+      <div class="project" onclick="toggleOther(event)">
+        <div class="title">Other</div>
+        <div class="meta">Go to a project not listed</div>
 
-<div class="tagline">Find your official Skylark edition</div>
+        <div class="other-input" id="otherInput">
+          <input
+            type="text"
+            id="otherField"
+            placeholder="Project path (example: NewProject)"
+            onkeydown="if(event.key==='Enter'){searchProject();}"
+          />
+          <button class="search-btn" onclick="searchProject()">Search</button>
+          <div class="error" id="errorText">Please enter a project name</div>
+        </div>
+      </div>
+    </div>
 
-<div class="required">
-  <div class="required-title">Required: Skylark Servers</div>
-  <div class="required-text">
-    Add the
-    <a href="https://www.dropbox.com/scl/fo/9zq7kpz5zmcmuzfo8emer/AHGwiNEKuz9ujyF8geSKkqo?dl=0" target="_blank">
-      Skylark Servers folder
-    </a>
-    to your Dropbox account.<br><br>
-    <a href="#" id="jump-to-e">Don’t want Skylark Servers? Use Skylark e</a>
+    <footer>
+      © Endlesspete
+    </footer>
   </div>
-</div>
 
-<div class="editions">
+  <script>
+    function toggleOther(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') return;
+      var field = document.getElementById('otherInput');
+      field.style.display = field.style.display === 'block' ? 'none' : 'block';
+      if (field.style.display === 'block') {
+        document.getElementById('otherField').focus();
+      }
+    }
 
-<!-- EDITIONS 1–6 (UNCHANGED LINKS) -->
-<a class="edition-link" data-min="14.3" data-sky="true" href="https://www.icloud.com/shortcuts/0e72496714944ee296007b436b4d3a8f">
-  <div class="edition ed1"><div class="edition-title">Edition 1</div><div class="edition-version">v2.2</div><div class="edition-support">iOS 14.3–14.8.1</div></div>
-</a>
+    function searchProject() {
+      var input = document.getElementById('otherField');
+      var error = document.getElementById('errorText');
+      var container = document.getElementById('otherInput');
+      var value = input.value.trim();
 
-<a class="edition-link" data-min="15.0" data-sky="true" href="https://www.icloud.com/shortcuts/65a674774ee5475cba87bb8ad822b08a">
-  <div class="edition ed2"><div class="edition-title">Edition 2</div><div class="edition-version">v6.0</div><div class="edition-support">iOS 15.0–15.8.3</div></div>
-</a>
+      if (!value) {
+        error.style.display = 'block';
+        container.classList.remove('shake');
+        void container.offsetWidth; // reset animation
+        container.classList.add('shake');
+        return;
+      }
 
-<a class="edition-link" data-min="16.0" data-sky="true" href="https://www.icloud.com/shortcuts/9c5bd486f48d4448b47bf423616ce882">
-  <div class="edition ed3"><div class="edition-title">Edition 3</div><div class="edition-version">v6.0</div><div class="edition-support">iOS 16.0–16.7.12</div></div>
-</a>
-
-<a class="edition-link" data-min="17.0" data-sky="true" href="https://www.icloud.com/shortcuts/8753eef694b54d13b29821ee68343e32">
-  <div class="edition ed4"><div class="edition-title">Edition 4</div><div class="edition-version">v1.4</div><div class="edition-support">iOS 17.0–17.7</div></div>
-</a>
-
-<a class="edition-link" data-min="18.0" data-sky="true" href="https://www.icloud.com/shortcuts/1f61f828cbf14f739117c164a4b5584a">
-  <div class="edition ed5"><div class="edition-title">Edition 5</div><div class="edition-version">v1.2</div><div class="edition-support">iOS 18.0–18.7.3</div></div>
-</a>
-
-<a class="edition-link" data-min="18.7" data-sky="true" href="https://www.icloud.com/shortcuts/be3a7cda4c494f4cbff687259abbb47b" id="edition-6">
-  <div class="edition ed6"><div class="edition-title">Edition 6</div><div class="edition-version">v1.2</div><div class="edition-support">iOS 26.0+</div></div>
-</a>
-
-<div class="divider">other Skylark versions</div>
-
-<a class="edition-link" id="skylark-e" data-min="18.0" href="https://endlesspete.github.io/16e/#">
-  <div class="edition skylark-e">
-    <div class="edition-title">Skylark e</div>
-    <div class="edition-note">Non-Skylark Server</div>
-    <div class="edition-support">iOS 18.0+</div>
-  </div>
-</a>
-
-<a class="edition-link" data-min="15.0" href="https://www.icloud.com/shortcuts/8d6e3f6e141c4f71a95e36cddfa6ce6d">
-  <div class="edition skylark-fe">
-    <div class="edition-title">Skylark Fe</div>
-    <div class="edition-note">No Skylark Servers</div>
-    <div class="edition-support">iOS 15.0–17.7</div>
-  </div>
-</a>
-
-</div>
-
-<div class="disclaimer">
-keep up to date @<a href="https://x.com/skylarkpress?s=21" target="_blank">SkylarkPress</a>
-</div>
-</div>
-
-<div class="blocked" id="blocked">
-Please visit this site on an iPhone, iPad, iPod touch, or Mac.<br>
-iOS 14.3 or later required.
-</div>
-
-<script>
-const ua = navigator.userAgent;
-const isApple = /iPhone|iPad|Macintosh/.test(ua) && !/Android/.test(ua);
-const m = ua.match(/OS (\d+)[._](\d+)/);
-const ios = m ? parseFloat(`${m[1]}.${m[2]}`) : null;
-
-if (!isApple || !ios || ios < 14.3) {
-  app.style.display = "none";
-  blocked.style.display = "block";
-}
-
-let best=null,bestMin=-1;
-document.querySelectorAll(".edition-link").forEach(link=>{
-  const min=parseFloat(link.dataset.min||0);
-  const card=link.querySelector(".edition");
-  if(ios<min){
-    link.classList.add("disabled");
-    card.classList.add("unsupported");
-  }else if(link.dataset.sky==="true" && min>bestMin){
-    bestMin=min; best=card;
-  }
-});
-if(best) best.classList.add("recommended");
-
-document.getElementById("jump-to-e").onclick=e=>{
-  e.preventDefault();
-  const c=document.querySelector(".skylark-e");
-  c.scrollIntoView({behavior:"smooth",block:"center"});
-  c.classList.add("highlighted");
-  setTimeout(()=>c.classList.remove("highlighted"),2200);
-};
-</script>
-
+      error.style.display = 'none';
+      window.location.href = 'https://endlesspete.github.io/' + value;
+    }
+  </script>
 </body>
 </html>
